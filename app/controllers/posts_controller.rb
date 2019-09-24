@@ -1,3 +1,5 @@
+require 'pry'
+
 class PostsController < ApplicationController
 	def index
 		@posts = Post.all
@@ -9,11 +11,14 @@ class PostsController < ApplicationController
 
 	def new
 		@post = Post.new
+		binding.pry
 	end
 
 	def create
-	  @post = Post.new(params)
+	  p params
+	  @post = Post.new(params.require(:post).permit(:title, :description))
 	  @post.save
+	  binding.pry
 	  redirect_to post_path(@post)
 	end
 
